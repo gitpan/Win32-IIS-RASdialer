@@ -41,7 +41,10 @@ is set up properly… you should probably also make sure that dial on demand is no
 on.  If that is all done then installation is pretty easy…
 	Uncompress the script… all the .html files should be in your root directory (wwwpub)
 and everything else should go into ‘scripts’ which is one directory up from wwwpub.
-Connect.html can be renamed to whatever you want it to be.
+Connect.html can be renamed to whatever you want it to be.  **In the file connect.pl you may have
+to change line 6 (my $args = "rasdial \"connect\"";) to 'my $args = "rasdial \"connect\" [$USERNAME] [$PASSWORD]";'.
+I've had trouble on some systems with rasdial.exe not pulling that info... yeah you will have the username 
+and password for your dialup in plaintext... probably not the best way to do it...
 	
 	Now you can connect and disconnect the dial up connection from any computer on the network
 by using a web browser to pull up connect.html…  it should be noted that any security or other

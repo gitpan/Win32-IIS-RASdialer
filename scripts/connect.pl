@@ -3,12 +3,13 @@ use strict;
 use CGI qw(:standard);
 use Win32::Process;
 my $cmdName = "C:\\winnt\\system32\\rasdial.exe";
-my $args = "rasdial \"connect\" kairos merlin7";
+my $args = "rasdial \"connect\"";
 my $process;
 my $processb;
 my $XC;
 my $msg;
 my @ERRS;
+#my $izzi = param('user');
 
 Win32::Process::Create($process,
 	$cmdName,
@@ -20,6 +21,12 @@ Win32::Process::Create($process,
 $process->Wait(INFINITE);
 Win32::Process::GetExitCode($process, $XC);
 
+#if ($izzi == "izzi"){
+#	print header;
+#	print start_html ('HA HA!');
+#	print "<center><img src=\"/finger.gif\" width=\"159\" height=\"236\"></center>";
+#	print end_html;
+#}
 if ($XC == "756") {
 	my $processb;
 	until ($XC != "756") {

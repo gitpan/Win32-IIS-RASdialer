@@ -2,14 +2,13 @@
 use strict;
 use CGI qw(:standard);
 use Win32::Process;
+use Net::Ping;
 my $cmdName = "C:\\winnt\\system32\\rasdial.exe";
 my $args = "rasdial \"connect\" /d";
 my $process;
 my $XC;
-my $cmdNametst = "C:\\winnt\\system32\\ping.exe";
-my $argstst = "ping -n 1 perl.com";
-my $processtst;
 my $XCtst = 0;
+my $ping;
 
 Win32::Process::Create($process,
 	$cmdName,
@@ -22,22 +21,22 @@ $process->Wait(INFINITE);
 Win32::Process::GetExitCode($process, $XC);
 
 if ($XC == "0") {
-	until ($XCtst == "1"){
-		Win32::Process::Create($processtst,
-			$cmdNametst,
-			$argstst,
-			0,
-			NORMAL_PRIORITY_CLASS,
-			".") || &error();
-			$processtst->Wait(INFINITE);
-			Win32::Process::GetExitCode($processtst, $XCtst);
-		if ($XCtst == "0"){
+	until ($XCtst == "0"){
+		$ping = Net::Ping->new("udp", 10);
+		if ($ping -> ping("perl.com")){
+			$XCtst = 1
+		}
+		else {
+			$XCtst = 0
+		}
+		if ($XCtst == "1"){
 			Win32::Process::Create($process,
 				$cmdName,
 				$args,
 				0,
 				NORMAL_PRIORITY_CLASS,
 				".") || &error();
+			$process->Wait(INFINITE);
 		}
 	}
 	print header;
